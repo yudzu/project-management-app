@@ -1,5 +1,6 @@
 package ru.hackathon.projectManagementApp.controllers;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,11 +11,13 @@ import ru.hackathon.projectManagementApp.domain.models.Project;
 import ru.hackathon.projectManagementApp.services.ProjectService;
 
 @RestController
+@RequestMapping("/project")
 @RequiredArgsConstructor
+@Tag(name = "Project Management")
 public class ProjectController {
     private final ProjectService projectService;
 
-    @GetMapping("/project/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Project> projectInfo(@PathVariable Long id){
         return ResponseEntity.ok().body(projectService.getById(id));
     }

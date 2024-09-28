@@ -1,5 +1,7 @@
 package ru.hackathon.projectManagementApp.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,10 +13,12 @@ import java.security.Principal;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/secured")
+@Tag(name = "User Management")
 public class UserController {
     private final UserService userService;
 
-    @GetMapping("/")
+    @GetMapping
+    @Operation(summary = "Available only to authorized users")
     public String hello(){
         return "Hello, World!";
     }
