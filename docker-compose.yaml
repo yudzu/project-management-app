@@ -3,7 +3,7 @@ services:
     image: 'postgres:latest'
     environment:
       - POSTGRES_DB=project_management
-      - POSTGRES_PASSWORD=qqq111
+      - POSTGRES_PASSWORD=qqq
       - POSTGRES_USER=postgres
     ports:
       - 5432:5432

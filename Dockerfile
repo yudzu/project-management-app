@@ -4,7 +4,7 @@ COPY . /app/.
 RUN mvn -f /app/pom.xml clean package -Dmaven.test.skip=true
 
 FROM openjdk:17-jdk-alpine
-ENV DB_PASSWORD=qqq111
+ENV DB_PASSWORD=qqq
 WORKDIR /app
 COPY --from=builder /app/target/*.jar /app/*.jar
 ENTRYPOINT ["java","-jar","/app/*.jar"]
