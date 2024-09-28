@@ -14,7 +14,7 @@ import ru.hackathon.projectManagementApp.services.AuthenticationService;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
-public class SecurityController {
+public class AuthController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/sign-up")
