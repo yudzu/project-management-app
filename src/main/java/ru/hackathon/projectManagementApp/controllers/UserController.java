@@ -14,11 +14,6 @@ import java.security.Principal;
 public class UserController {
     private final UserService userService;
 
-    @GetMapping("/hello")
-    public String hello() {
-        return "hello";
-    }
-
     @GetMapping("/user")
     public String userAccess(Principal principal) {
         if (principal == null) {

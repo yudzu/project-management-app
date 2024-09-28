@@ -1,10 +1,10 @@
-package ru.hackathon.projectManagementApp.dto;
+package ru.hackathon.projectManagementApp.domain.dto;
 
 import lombok.Data;
 
 @Data
 public class SignUpRequest {
-    private String name;
+    private String username;
     private String email;
     private String password;
 }

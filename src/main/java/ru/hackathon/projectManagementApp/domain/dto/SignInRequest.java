@@ -1,9 +1,9 @@
-package ru.hackathon.projectManagementApp.dto;
+package ru.hackathon.projectManagementApp.domain.dto;
 
 import lombok.Data;
 
 @Data
 public class SignInRequest {
-    private String email;
+    private String username;
     private String password;
 }
