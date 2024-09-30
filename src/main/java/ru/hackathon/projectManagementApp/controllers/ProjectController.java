@@ -11,14 +11,14 @@ import ru.hackathon.projectManagementApp.domain.models.Project;
 import ru.hackathon.projectManagementApp.services.ProjectService;
 
 @RestController
-@RequestMapping("/project")
 @RequiredArgsConstructor
+@RequestMapping("/projects")
 @Tag(name = "Project Management")
 public class ProjectController {
     private final ProjectService projectService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Project> projectInfo(@PathVariable Long id){
+    public ResponseEntity<Project> projectInfo(@PathVariable Long id) {
         return ResponseEntity.ok().body(projectService.getById(id));
     }
 }

@@ -1,21 +1,68 @@
 version: '3'
 services:
   postgres:
-    image: 'postgres:latest'
+    image: postgres
+    container_name: postgres
     environment:
       - POSTGRES_DB=project_management
       - POSTGRES_PASSWORD=somePassword999
-      - POSTGRES_USER=postgres
+      - POSTGRES_USER=someUser
+      - PGDATA=/var/lib/postgresql/data/pgdata
     ports:
-      - 5432:5432
-#    volumes:
-#      - "./postgres_data:/var/lib/postgresql/data/"
-  app:
+      - 15432:5432
+    restart: always
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready", "-q", "-u someUser", "-d project_management" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    volumes:
+      - ./infrastructure/db/create_db.sql:/docker-entrypoint-initdb.d/create_db.sql
+      - db-data:/var/lib/postgresql/data/
+
+  pgadmin:
+    container_name: pgadmin4
+    image: dpage/pgadmin4
+    restart: unless-stopped
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=root
+    ports:
+      - 5050:80
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+
+  project-management-app-backend:
     build:
       context: .
       dockerfile: Dockerfile
-    image: 'project-management-app'
+    container_name: project-management-app-backend
     ports:
-      - 8080:8080
+      - 8181:8181
+    environment:
+      - SERVER_PORT=8181
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres/project_management
+      - JS_URL=http://localhost
     depends_on:
-      - postgres
+       postgres:
+         condition: service_healthy
+
+  project-management-app-frontend:
+    container_name: project-management-app-frontend
+    build: ./frontend
+    restart: always
+    ports:
+      - 3000:3000
+    depends_on:
+      - project-management-app-backend
+    volumes:
+      - /app/node_modules
+      - ./frontend:/app
+
+volumes:
+  db-data:
+  pgadmin-data:

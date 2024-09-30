@@ -5,6 +5,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.hackathon.projectManagementApp.domain.dto.SignInRequest;
+import ru.hackathon.projectManagementApp.domain.enums.Role;
 import ru.hackathon.projectManagementApp.domain.models.User;
 import org.springframework.stereotype.Service;
 import ru.hackathon.projectManagementApp.domain.dto.JwtAuthenticationResponse;
@@ -24,6 +25,7 @@ public class AuthenticationService {
                 .username(request.getUsername())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
+                .role(Role.ROLE_USER)
                 .build();
 
         userService.create(user);

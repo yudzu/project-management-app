@@ -5,6 +5,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import ru.hackathon.projectManagementApp.domain.enums.Role;
 import ru.hackathon.projectManagementApp.domain.models.User;
 import ru.hackathon.projectManagementApp.repositories.UserRepository;
 
@@ -40,6 +41,12 @@ public class UserService {
     public User getCurrentUser() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return getByUsername(username);
+    }
+
+    public void makeAdmin() {
+        User user = getCurrentUser();
+        user.setRole(Role.ROLE_ADMIN);
+        save(user);
     }
 
 }
